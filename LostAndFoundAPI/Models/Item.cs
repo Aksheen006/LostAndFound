@@ -1,5 +1,5 @@
 using System;
-
+//Item Class Author: Samuel Gopie
 namespace LostAndFoundAPI.Models;
 
 public class Item
