@@ -2,7 +2,9 @@ using System.Data.Common;
 using LostAndFoundAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 //ItemController Author: Samuel Gopie
 namespace LostAndFoundAPI.Controllers
 {
@@ -52,13 +54,36 @@ namespace LostAndFoundAPI.Controllers
             foreach (Item item in deleteItems)
             {
                 var itemInDb = await _db.Items.FirstOrDefaultAsync(x => x.Id == item.Id);
-                if  ( itemInDb != null)
+                if (itemInDb != null)
                 {
                     _db.Items.Remove(itemInDb);
-                    _db.SaveChanges();
                 }
+                _db.SaveChanges();
             }
             return Ok(deleteItems);
+        }
+
+        // PUT /api/Items/{id}
+        public async Task<IActionResult> UpdateItem(Guid id, string newName=null, bool newFound = false)
+        {
+            var updateItem = await _db.Items.FirstOrDefaultAsync(x => x.Id == id);
+            if (updateItem != null)
+            {
+                if (newName != null)
+                {
+                    updateItem.Name = newName;
+                }
+                if (newFound == true)
+                {
+                    updateItem.isFound = true;
+                }
+                _db.SaveChanges();
+                return Ok(id);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }
