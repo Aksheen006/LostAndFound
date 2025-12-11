@@ -8,4 +8,6 @@ public class Item
 
     public string Name { get; set; }
 
+    public bool isFound { get; set; } = false;
+
 }

@@ -47,24 +47,74 @@ namespace LostAndFoundAPI.Controllers
             return Ok(newItems);
         }
 
-        // DELETE /api/Items/removeItems/[array of items]
-        [HttpDelete("/removeItems")]
-        public async Task<IActionResult> RemoveItems(List<Item> deleteItems)
+        //POST /api/Items/addItems/{newitem}
+        [HttpPost("/addItems/{newitem}")]
+        public async Task<IActionResult> AddItemById(Item newItem)
         {
-            foreach (Item item in deleteItems)
+
+            if (await _db.Items.FirstOrDefaultAsync(x => x.Id == newItem.Id) == null)
             {
-                var itemInDb = await _db.Items.FirstOrDefaultAsync(x => x.Id == item.Id);
+                await _db.Items.AddAsync(newItem);
+            }
+            return Ok(newItem);
+        }
+
+        // DELETE /api/Items/removeItems/[array of item ids]
+        [HttpDelete("/removeItems")]
+        public async Task<IActionResult> RemoveItems(List<Guid> deleteIds)
+        {
+            foreach (Guid id in deleteIds)
+            {
+                var itemInDb = await _db.Items.FirstOrDefaultAsync(x => x.Id == id);
                 if (itemInDb != null)
                 {
                     _db.Items.Remove(itemInDb);
                 }
                 _db.SaveChanges();
             }
-            return Ok(deleteItems);
+            return Ok(deleteIds);
         }
 
-        // PUT /api/Items/{id}
-        public async Task<IActionResult> UpdateItem(Guid id, string newName=null, bool newFound = false)
+        // DELETE /api/Items/removeItems/{deleteItemId}
+        [HttpDelete("/removeItems/{id}")]
+        public async Task<IActionResult> RemoveItemById(Guid id)
+        {
+
+            var itemInDb = await _db.Items.FirstOrDefaultAsync(x => x.Id == id);
+            if (itemInDb != null)
+            {
+                _db.Items.Remove(itemInDb);
+            }
+            _db.SaveChanges();
+            return Ok(id);
+        }
+
+        // PUT /api/Items/updateItems
+        [HttpDelete("/updateItems")]
+        public async Task<IActionResult> UpdateItems(List<Item> updatedItems)
+        {
+            foreach (Item updatedItem in updatedItems)
+            {
+                var itemInDb = await _db.Items.FirstOrDefaultAsync(x => x.Id == updatedItem.Id);
+                if (itemInDb != null)
+                {
+                    if (updatedItem.Name != null)
+                    {
+                        itemInDb.Name = updatedItem.Name;
+                    }
+                    if (updatedItem.isFound == true)
+                    {
+                        itemInDb.isFound = updatedItem.isFound;
+                    }
+                    _db.SaveChanges();
+                }
+            }
+            return Ok(updatedItems);
+        }
+
+        // PUT /api/Items/updateItems/{id}
+        [HttpDelete("/updateItems/{id}")]
+        public async Task<IActionResult> UpdateItem(Guid id, string newName = null, bool newFound = false)
         {
             var updateItem = await _db.Items.FirstOrDefaultAsync(x => x.Id == id);
             if (updateItem != null)
