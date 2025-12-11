@@ -1,0 +1,55 @@
+@model LostAndFoundPortal.Models.Item
+
+@{
+    ViewData["Title"] = "Add New Item";
+}
+
+<h2 class="text-center mt-4">Add New Item</h2>
+
+<div class="container mt-4" style="max-width: 600px;">
+
+    <form method="post">
+
+        <!-- Item Name -->
+        <div class="mb-3">
+            <label class="form-label">Item Name:</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+            <label class="form-label">Description:</label>
+            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <!-- Status Dropdown -->
+        <div class="mb-3">
+            <label class="form-label">Status:</label>
+            <select asp-for="Status" class="form-select">
+                <option value="Lost">Lost</option>
+                <option value="Found">Found</option>
+            </select>
+        </div>
+
+        <!-- Image Upload Placeholder  -->
+        <div class="mb-3">
+            <label class="form-label">Image:</label>
+            <input type="file" class="form-control" disabled />
+            <small class="text-muted">* Image upload coming in a future update.</small>
+        </div>
+
+        <!-- Submit & Cancel Buttons -->
+        <div class="d-flex justify-content-between mt-4">
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-dark">Submit</button>
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

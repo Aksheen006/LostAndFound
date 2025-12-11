@@ -1,0 +1,65 @@
+@model LostAndFoundPortal.Models.Item
+
+@{
+    ViewData["Title"] = "Edit Item";
+}
+
+<h2 class="text-center mt-4">Edit Item</h2>
+
+<div class="container mt-4" style="max-width: 600px;">
+
+    <form method="post">
+
+        <!-- Hidden ID field -->
+        <input type="hidden" asp-for="Id" />
+
+        <!-- Item Name -->
+        <div class="mb-3">
+            <label class="form-label">Item Name:</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+            <label class="form-label">Description:</label>
+            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <!-- Status Dropdown -->
+        <div class="mb-3">
+            <label class="form-label">Status:</label>
+            <select asp-for="Status" class="form-select">
+                <option value="Lost" selected="@("Lost" == Model.Status)">Lost</option>
+                <option value="Found" selected="@("Found" == Model.Status)">Found</option>
+            </select>
+        </div>
+
+        <!-- Image Placeholder  -->
+        <div class="mb-3">
+            <label class="form-label">Image:</label>
+            <input type="file" class="form-control" disabled />
+            <small class="text-muted">* Image upload coming in a future update.</small>
+        </div>
+
+        <!-- Buttons row -->
+        <div class="d-flex justify-content-between mt-4">
+
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+
+            <button type="submit" class="btn btn-dark">Save Changes</button>
+        </div>
+
+    </form>
+
+    <!-- DELETE ITEM BUTTON -->
+    <form method="post" asp-action="DeleteItem" asp-route-id="@Model.Id" class="mt-3">
+        <button type="submit" class="btn btn-danger w-100">Delete Item</button>
+    </form>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

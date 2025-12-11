@@ -1,0 +1,50 @@
+﻿@model List<LostAndFoundPortal.Models.Item>
+
+@{
+    ViewData["Title"] = "Campus Lost & Found";
+}
+
+<h1 class="text-center mt-4">Campus Lost and Found</h1>
+
+<div class="container mt-4">
+
+    <!-- Search Bar & Add Button -->
+    <div class="row mb-3">
+        <div class="col-md-8">
+            <input type="text" class="form-control" placeholder="Search...">
+        </div>
+        <div class="col-md-4 text-end">
+            <a class="btn btn-dark" asp-action="AddItem">Add New Item</a>
+        </div>
+    </div>
+
+    <!-- Items Grid -->
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+
+                    <!-- Image Placeholder -->
+                    <div style="height:180px; background:#eaeaea;" class="d-flex align-items-center justify-content-center">
+                        <span class="text-muted">Image</span>
+                    </div>
+
+                    <div class="card-body">
+                        <h6 class="text-secondary">@item.Status</h6>
+                        <h4>@item.Name</h4>
+
+                        <ul>
+                            <li>@item.Description</li>
+                            <li>Date Posted: @item.DatePosted.ToShortDateString()</li>
+                        </ul>
+
+                        <div class="text-end">
+                            <a class="btn btn-dark" asp-action="EditItem" asp-route-id="@item.Id">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
