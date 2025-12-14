@@ -18,7 +18,7 @@ namespace LostAndFoundAPI.Controllers
 
         //need to add pagination in future update
         //GET /api/Items/all
-        [HttpGet("/all")]
+        [HttpGet]
         public async Task<IActionResult> GetAllItems()
         {
             var items = await _db.Items.ToListAsync(); //https://stackoverflow.com/questions/13658862/get-all-rows-using-entity-framework-dbset
@@ -49,7 +49,7 @@ namespace LostAndFoundAPI.Controllers
 
         //POST /api/Items/addItems/{newitem}
         [HttpPost("/addItems/{newitem}")]
-        public async Task<IActionResult> AddItemById(Item newItem)
+        public async Task<IActionResult> AddItem(Item newItem)
         {
 
             if (await _db.Items.FirstOrDefaultAsync(x => x.Id == newItem.Id) == null)

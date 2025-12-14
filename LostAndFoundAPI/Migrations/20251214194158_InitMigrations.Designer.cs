@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LostAndFoundAPI.Migrations
 {
     [DbContext(typeof(ItemDatabase))]
-    [Migration("20251211021223_ItemIsFound")]
-    partial class ItemIsFound
+    [Migration("20251214194158_InitMigrations")]
+    partial class InitMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,6 +29,9 @@ namespace LostAndFoundAPI.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("isFound")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
