@@ -61,18 +61,18 @@ namespace LostAndFoundAPI.Controllers
 
         // DELETE /api/Items/removeItems/[array of item ids]
         [HttpDelete("/removeItems")]
-        public async Task<IActionResult> RemoveItems(List<Guid> deleteIds)
+        public async Task<IActionResult> RemoveItems(List<Item> deleteItems)
         {
-            foreach (Guid id in deleteIds)
+            foreach (Item item in deleteItems)
             {
-                var itemInDb = await _db.Items.FirstOrDefaultAsync(x => x.Id == id);
+                var itemInDb = await _db.Items.FirstOrDefaultAsync(x => x.Id == item.Id);
                 if (itemInDb != null)
                 {
                     _db.Items.Remove(itemInDb);
                 }
                 _db.SaveChanges();
             }
-            return Ok(deleteIds);
+            return Ok(deleteItems);
         }
 
         // DELETE /api/Items/removeItems/{deleteItemId}
@@ -112,8 +112,8 @@ namespace LostAndFoundAPI.Controllers
             return Ok(updatedItems);
         }
 
-        // PUT /api/Items/updateItems/{id}
-        [HttpDelete("/updateItems/{id}")]
+        // PUT /api/Items/{id}
+        [HttpDelete("/Items/{id}")]
         public async Task<IActionResult> UpdateItem(Guid id, string newName = null, bool newFound = false)
         {
             var updateItem = await _db.Items.FirstOrDefaultAsync(x => x.Id == id);
