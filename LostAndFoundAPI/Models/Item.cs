@@ -1,5 +1,5 @@
 using System;
-//Item Class Author: Samuel Gopie
+
 namespace LostAndFoundAPI.Models;
 
 public class Item
@@ -8,6 +8,6 @@ public class Item
 
     public string Name { get; set; }
 
-    public bool isFound { get; set; } = false;
+    public bool isFound { get; set; }
 
 }
