@@ -31,13 +31,13 @@ public class UserAuthServiceTests
         // Arrange
         var repo = new FakeUserRepo();
         var service = new UserAuthService(repo);
-        var u = new User { Username = "Aljen", Email = "a@a.com", Password = "123" };
+        var u = new User { Username = "John", Email = "johndoe@gmail.com", Password = "123" };
 
         // Act
         var created = service.Register(u);
 
         // Assert
-        Assert.Equal("a@a.com", created.Email);
+        Assert.Equal("johndoe@gmail.com", created.Email);
         Assert.True(created.Id > 0);
     }
 
@@ -47,11 +47,11 @@ public class UserAuthServiceTests
         // Arrange
         var repo = new FakeUserRepo();
         var service = new UserAuthService(repo);
-        service.Register(new User { Username = "X", Email = "dup@a.com", Password = "1" });
+        service.Register(new User { Username = "Jane", Email = "jane@gmail.com", Password = "1" });
 
         // Act + Assert
         Assert.Throws<ArgumentException>(() =>
-            service.Register(new User { Username = "Y", Email = "dup@a.com", Password = "2" }));
+            service.Register(new User { Username = "Josh", Email = "josh@gmail", Password = "2" }));
     }
 
     [Fact]
@@ -60,10 +60,10 @@ public class UserAuthServiceTests
         // Arrange
         var repo = new FakeUserRepo();
         var service = new UserAuthService(repo);
-        service.Register(new User { Username = "X", Email = "x@a.com", Password = "good" });
+        service.Register(new User { Username = "Jonny", Email = "johnny@gmail", Password = "pass" });
 
         // Act + Assert
         Assert.Throws<ArgumentException>(() =>
-            service.Login("x@a.com", "bad"));
+            service.Login("x.com", "bad"));
     }
 }
